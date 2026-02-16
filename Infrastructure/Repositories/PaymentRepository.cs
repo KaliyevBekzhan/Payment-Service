@@ -1,0 +1,64 @@
+﻿using Application.Repositories;
+using Domain.Entity;
+using FluentResults;
+using Microsoft.EntityFrameworkCore;
+
+namespace Infrastructure.Repositories;
+
+public class PaymentRepository : IPaymentRepository
+{
+    private readonly AppDbContext _dbContext;
+    public PaymentRepository(AppDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+
+    public async Task AddPaymentAsync(Payment payment)
+    {
+        await _dbContext.Payments.AddAsync(payment);
+    }
+
+    public async Task<Result<IEnumerable<Payment>>> GetPaymentsByUserIdAsync(int userId)
+    {
+        var result = await _dbContext.Payments.Where(p => p.UserId == userId)
+            .Include(p => p.Status)
+            .Include(p => p.Currency)
+            .ToListAsync();
+
+        if (result.Count == 0)
+        {
+            return Result.Fail($"No payments found for User {userId}");
+        }
+        
+        return Result.Ok(result.AsEnumerable());
+    }
+
+    public async Task<Result> UpdatePaymentStatus(int id, int statusId, int userId)
+    {
+        var row = await _dbContext.Payments
+            .Where(p => p.Id == id)
+            .ExecuteUpdateAsync(rs => rs
+                .SetProperty(p => p.StatusId, statusId)
+                .SetProperty(p => p.ChangerId, userId));
+
+        if (row == 0)
+        {
+            return Result.Fail("No payment affected");
+        }
+        
+        return Result.Ok();
+    }
+
+    public async Task<Result<Payment>> GetPaymentByIdAsync(int id)
+    {
+        var result = await _dbContext.Payments.FindAsync(id);
+        
+        if (result == null)
+        {
+            return Result.Fail("Payment not found");
+        }
+        
+        return Result.Ok(result);
+    }
+}

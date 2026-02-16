@@ -4,13 +4,15 @@ public class Payment
 {
     public int Id { get; set; }
     public int UserId { get; set; }
-    public decimal Amount { get; set; }
+    public decimal OriginalAmount { get; set; }
+    public decimal AmountInTenge { get; set; }
     public string WalletNumber { get; set; } = null!;
-    public int Account { get; set; }
+    public decimal Account { get; set; }
     public int CurrencyId { get; set; }
     public string Comment { get; set; } = null!;
     public int StatusId { get; set; }
     public DateTime CreatedAt { get; set; }
+    public int ChangerId { get; set; }
     
     // One to Many
     public virtual User User { get; set; } = null!;

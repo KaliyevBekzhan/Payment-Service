@@ -5,6 +5,7 @@ public class User
     public int Id { get; set; }
     public string WalletNumber { get; set; } = null!;
     public decimal Account { get; set; }
+    public string Password { get; set; } = null!;
     public string IIN { get; set; } = null!;
     public string Name { get; set; } = null!;
     public int RoleId { get; set; }
