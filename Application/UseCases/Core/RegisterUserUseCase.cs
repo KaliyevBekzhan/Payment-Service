@@ -14,15 +14,18 @@ public class RegisterUserUseCase : IRegisterUserUseCase
     private readonly IGuard _guard;
     private readonly IPasswordHasher _passwordHasher;
     private readonly IWalletNumberGenerator _walletNumberGenerator;
+    private readonly IJwtService _jwtService;
     public RegisterUserUseCase(IUserRepository userRepository, 
         IGuard guard, 
         IPasswordHasher passwordHasher,
-        IWalletNumberGenerator walletNumberGenerator)
+        IWalletNumberGenerator walletNumberGenerator,
+        IJwtService jwtService)
     {
         _userRepository = userRepository;
         _guard = guard;
         _passwordHasher = passwordHasher;
         _walletNumberGenerator = walletNumberGenerator;
+        _jwtService = jwtService;
     }
 
     public async Task<Result<UserDto>> ExecuteAsync(RegisterUserDto userDto)
@@ -47,11 +50,20 @@ public class RegisterUserUseCase : IRegisterUserUseCase
             Password = _passwordHasher.HashPassword(userDto.Password),
             RoleId = (int)Roles.User,
             Account = 0,
-            WalletNumber = _walletNumberGenerator.Generate()
+            WalletNumber = _walletNumberGenerator.Generate(),
+            Role = new Role
+            {
+                Id = (int)Roles.User,
+                Name = "User",
+                IsAdmin = false,
+                Priority = 1
+            }
         };
         
         await _userRepository.AddUserAsync(user);
         
-        return Result.Ok<UserDto>(new UserDto(user.Id, user.Name, user.Role.Name, user.Account, user.WalletNumber));
+        var token = _jwtService.GenerateToken(user.Id, user.Role.Name);
+        
+        return Result.Ok<UserDto>(new UserDto(user.Id, user.Name, user.Role.Name, user.Account, user.WalletNumber, token.Token, token.Expires));
     }
 }

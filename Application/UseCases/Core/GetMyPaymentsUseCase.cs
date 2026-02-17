@@ -14,7 +14,7 @@ public class GetMyPaymentsUseCase : IGetMyPaymentsUseCase
     {
         var payments = await _paymentRepository.GetPaymentsByUserIdAsync(dto.UserId);
 
-        IEnumerable<PaymentDto> result = payments.Value
+        var result = payments.Value
             .Select(payment => new PaymentDto(payment.OriginalAmount, payment.Currency.Name, payment.Status.Name));
 
         return Result.Ok(result);

@@ -2,7 +2,7 @@
 
 public enum Statuses
 {
-    Created = 1,
+    Created = 3,
     Accepted = 2,
-    Declined = 3,
+    Declined = 1,
 }

@@ -64,4 +64,21 @@ public class Guard : IGuard
         
         return Result.Ok();
     }
+
+    public async Task<Result> ValidateAdminRole(int userId, IUserRepository userRepository)
+    {
+        var isAdmin = await userRepository.CheckUserIsAdminAsync(userId);
+        
+        if (isAdmin.IsFailed) 
+        {
+            return Result.Fail(isAdmin.Errors);
+        }
+
+        if (isAdmin.Value == false)
+        {
+            return Result.Fail("User is not admin");
+        }
+        
+        return Result.Ok();
+    }
 }

@@ -7,8 +7,11 @@ public interface IUserRepository
 {
     Task<Result<User>> AddUserAsync(User user);
     Task<Result<User>> GetUserByIdAsync(int id);
-    Task<Result> UpdateUserAccount(int id, decimal amount);
-    Task<Result> UpdateUserCredentials(int id, string IIN, string password);
-    Task<Result> UpdateUserName(int id, string name);
+    Task<Result> UpdateUserAccountAsync(int id, decimal amount);
+    Task<Result> UpdateUserCredentialsAsync(int id, string IIN, string password);
+    Task<Result> UpdateUserNameAsync(int id, string name);
+    Task<Result> UpdateUserRoleAsync(int id, int roleId);
     Task<Result<User>> GetUserByIinAsync(string iin);
+    Task<Result<bool>> CheckUserIsAdminAsync(int userId);
+    Task<Result<IEnumerable<User>>> GetAllUsersAsync();
 }

@@ -8,5 +8,5 @@ public interface IBaseRepository<T> where T : class
     Task<Result<IEnumerable<T>>> GetAllAsync();
     Task<Result> AddAsync(T entity);
     Task<Result> UpdateAsync(T entity);
-    Task<Result> DeleteAsync(T entity);
+    Task<Result> DeleteAsync(int id);
 }

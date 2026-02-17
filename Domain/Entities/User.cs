@@ -15,4 +15,5 @@ public class User
     
     // Many to One
     public virtual ICollection<Payment> Payments { get; set; } = new HashSet<Payment>();
+    public virtual ICollection<Payment> ChangedPayments { get; set; } = new HashSet<Payment>();
 }

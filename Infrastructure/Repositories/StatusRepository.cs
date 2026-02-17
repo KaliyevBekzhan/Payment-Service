@@ -68,10 +68,10 @@ public class StatusRepository : IBaseRepository<Status>
         return Result.Ok();
     }
 
-    public async Task<Result> DeleteAsync(Status entity)
+    public async Task<Result> DeleteAsync(int id)
     {
         var rows = await _dbContext.Statuses
-            .Where(s => s.Id == entity.Id)
+            .Where(s => s.Id == id)
             .ExecuteDeleteAsync();
         
         if (rows == 0)

@@ -5,6 +5,7 @@ public class Role
     public int Id { get; set; }
     public string Name { get; set; } = null!;
     public bool IsAdmin { get; set; }
+    public int Priority { get; set; }
     
     // Many to One
     public virtual ICollection<User> Users { get; set; } = new HashSet<User>();

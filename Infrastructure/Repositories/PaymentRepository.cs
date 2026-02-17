@@ -61,4 +61,19 @@ public class PaymentRepository : IPaymentRepository
         
         return Result.Ok(result);
     }
+
+    public async Task<Result<IEnumerable<Payment>>> GetPaymentsByStatusIdAsync(int statusId)
+    {
+        var result = await _dbContext.Payments.Where(p => p.StatusId == statusId)
+            .Include(p => p.Currency)
+            .Include(p => p.User)
+            .ThenInclude(u => u.Role)
+            .Include(p => p.Status)
+            .Where(p => p.StatusId == statusId)
+            .OrderByDescending(p => p.User.Role.Priority)
+            .ThenByDescending(p => p.CreatedAt)
+            .ToListAsync();
+        
+        return Result.Ok(result.AsEnumerable());
+    }
 }

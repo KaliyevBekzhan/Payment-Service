@@ -66,10 +66,10 @@ public class CurrencyRepository : IBaseRepository<Currency>
         return Result.Ok();
     }
 
-    public async Task<Result> DeleteAsync(Currency entity)
+    public async Task<Result> DeleteAsync(int id)
     {
         var rows = await _dbContext.Currencies
-            .Where(c => c.Id == entity.Id)
+            .Where(c => c.Id == id)
             .ExecuteDeleteAsync();
 
         if (rows == 0)

@@ -5,6 +5,6 @@ namespace Application.Repositories;
 
 public interface IJwtService
 {
-    string GenerateToken(int userId, string role);
+    (string Token, DateTime Expires) GenerateToken(int userId, string role);
     Result<TokenClaims> ValidateToken(string token);
 }

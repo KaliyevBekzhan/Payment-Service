@@ -30,7 +30,9 @@ public class RoleRepository : IBaseRepository<Role>
 
     public async Task<Result<IEnumerable<Role>>> GetAllAsync()
     {
-        var result = await _dbContext.Roles.AsNoTracking().ToListAsync();
+        var result = await _dbContext.Roles
+            .AsNoTracking()
+            .ToListAsync();
 
         if (result.Count == 0)
         {
@@ -58,6 +60,7 @@ public class RoleRepository : IBaseRepository<Role>
     {
         var row = await _dbContext.Roles
             .Where(r => r.Id == entity.Id)
+            .Where(r => r.IsAdmin == false)
             .ExecuteUpdateAsync(rs => rs
                 .SetProperty(r => r.Name, entity.Name)
             );
@@ -70,10 +73,11 @@ public class RoleRepository : IBaseRepository<Role>
         return Result.Ok();
     }
 
-    public async Task<Result> DeleteAsync(Role entity)
+    public async Task<Result> DeleteAsync(int id)
     {
         var row = await _dbContext.Roles
-            .Where(r => r.Id == entity.Id)
+            .Where(r => r.Id == id)
+            .Where(r => r.IsAdmin == false)
             .ExecuteDeleteAsync();
         
         if (row == 0)

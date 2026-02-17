@@ -43,17 +43,18 @@ public class AddPaymentUseCase : IAddPaymentUseCase
         
         var user = result.Value;
 
-        Payment payment = new Payment
+        var payment = new Payment
         {
             UserId = dto.UserId,
             Account = user.Account,
             WalletNumber = user.WalletNumber,
             OriginalAmount = dto.Amount,
             AmountInTenge = ConverterPolicy.ConvertToTenge(currencyResult.Value, dto.Amount),
+            CurrencyName = currencyResult.Value.Name,
             CurrencyId = dto.CurrencyId,
             Comment = dto.Comment,
             StatusId = (int)Statuses.Created,
-            ChangerId = user.Id,
+            ChangerId = null
         };
         
         await _paymentRepository.AddPaymentAsync(payment);

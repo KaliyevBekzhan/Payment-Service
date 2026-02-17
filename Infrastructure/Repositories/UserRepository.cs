@@ -39,7 +39,7 @@ public class UserRepository : IUserRepository
         return Result.Ok(result);
     }
 
-    public async Task<Result> UpdateUserAccount(int id, decimal account)
+    public async Task<Result> UpdateUserAccountAsync(int id, decimal account)
     {
         var result = await GetUserByIdAsync(id);
         
@@ -52,7 +52,7 @@ public class UserRepository : IUserRepository
         return Result.Fail(result.Errors);
     }
 
-    public async Task<Result> UpdateUserCredentials(int id, string IIN, string password)
+    public async Task<Result> UpdateUserCredentialsAsync(int id, string IIN, string password)
     {
         var rows = await _dbContext.Users
             .Where(u => u.Id == id)
@@ -69,11 +69,25 @@ public class UserRepository : IUserRepository
         return Result.Ok();
     }
 
-    public async Task<Result> UpdateUserName(int id, string name)
+    public async Task<Result> UpdateUserNameAsync(int id, string name)
     {
         var rows = await _dbContext.Users
             .Where(u => u.Id == id)
             .ExecuteUpdateAsync(rs => rs.SetProperty(u => u.Name, name));
+        
+        if (rows == 0)
+        {
+            return Result.Fail("No users was affected");
+        }
+        
+        return Result.Ok();
+    }
+
+    public async Task<Result> UpdateUserRoleAsync(int id, int roleId)
+    {
+        var rows = await _dbContext.Users
+            .Where(u => u.Id == id)
+            .ExecuteUpdateAsync(rs => rs.SetProperty(u => u.RoleId, roleId));
         
         if (rows == 0)
         {
@@ -95,5 +109,33 @@ public class UserRepository : IUserRepository
         }
         
         return Result.Ok(result);
+    }
+
+    public async Task<Result<bool>> CheckUserIsAdminAsync(int userId)
+    {
+        var result = await _dbContext.Users
+            .Include(u => u.Role)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (result == null)
+        {
+            return Result.Fail("User not found");
+        }
+        
+        return Result.Ok(result.Role.IsAdmin);
+    }
+
+    public async Task<Result<IEnumerable<User>>> GetAllUsersAsync()
+    {
+        var result = await _dbContext.Users
+            .Include(u => u.Role)
+            .ToListAsync();
+        
+        if (result == null)
+        {
+            return Result.Fail("No users found");
+        }
+        
+        return Result.Ok(result.AsEnumerable());
     }
 }

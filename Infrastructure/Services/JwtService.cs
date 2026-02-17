@@ -20,10 +20,12 @@ public class JwtService : IJwtService
     }
 
 
-    public string GenerateToken(int userId, string role)
+    public (string Token, DateTime Expires) GenerateToken(int userId, string role)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtSettings.Key);
+        
+        var expires = DateTime.UtcNow.AddMinutes(15); 
         
         var tokenDescriptor = new SecurityTokenDescriptor
         {
@@ -32,7 +34,7 @@ public class JwtService : IJwtService
                new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
                new Claim(ClaimTypes.Role, role)
             }),
-            Expires = DateTime.UtcNow.AddMinutes(15),
+            Expires = expires,
             Audience = _jwtSettings.Audience,
             Issuer = _jwtSettings.Issuer,
             SigningCredentials = new SigningCredentials(
@@ -42,7 +44,7 @@ public class JwtService : IJwtService
         };
         
         var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
+        return (tokenHandler.WriteToken(token), expires);
     }
 
     public Result<TokenClaims> ValidateToken(string token)
