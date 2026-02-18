@@ -25,7 +25,7 @@ public class JwtService : IJwtService
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtSettings.Key);
         
-        var expires = DateTime.UtcNow.AddMinutes(15); 
+        var expires = DateTime.UtcNow.AddHours(2); 
         
         var tokenDescriptor = new SecurityTokenDescriptor
         {

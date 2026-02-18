@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace PaymentServiceApi.Controllers;
 
 [ApiController]
-[Route("[controller]/v1")]
+[Route("api/v1/[controller]")]
 public class AuthController : ControllerBase
 {
     // GET
@@ -64,7 +64,7 @@ public class AuthController : ControllerBase
         return Ok(response);
     }
     
-    [HttpPost("/logout")]
+    [HttpPost("logout")]
     [Authorize]
     public async Task<IActionResult> Logout()
     {

@@ -1,3 +1,7 @@
 ﻿namespace Application.Dto.Returns;
 
-public class PaymentDto(decimal OriginalAmount, string Currency, string Status);
+public record PaymentDto(decimal OriginalAmount, 
+    string Currency, 
+    decimal AmountInTenge, 
+    string Status,
+    string Comment);

@@ -20,7 +20,7 @@ public class AddRoleUseCase : IAddRoleUseCase
     }
 
 
-    public async Task<Result> ExecuteAsync(AddRoleDto dto, int userId)
+    public async Task<Result<RoleInfoDto>> ExecuteAsync(AddRoleDto dto, int userId)
     {
         var validationResult = await _guard.ValidateAdminRole(userId, _userRepository);
         
@@ -35,6 +35,8 @@ public class AddRoleUseCase : IAddRoleUseCase
         
         var result = await _roleRepository.AddAsync(role);
 
-        return result;
+        var newRole = result.Value;
+        
+        return Result.Ok(new RoleInfoDto(newRole.Id, newRole.Name, newRole.Priority));
     }
 }

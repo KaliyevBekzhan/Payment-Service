@@ -5,6 +5,7 @@ using Domain.Entity;
 using Domain.Enums;
 using Domain.Policies;
 using FluentResults;
+using Serilog;
 
 namespace Application.UseCases;
 
@@ -40,6 +41,7 @@ public class AcceptPaymentUseCase : IAcceptPaymentUseCase
         
         if (paymentStatus.IsFailed)
         {
+            await _unitOfWork.RollbackTransactionAsync();
             return Result.Fail(payment.Errors);
         }
         
@@ -49,6 +51,7 @@ public class AcceptPaymentUseCase : IAcceptPaymentUseCase
         
         if (paymentResult.IsFailed)
         {
+            await _unitOfWork.RollbackTransactionAsync();
             return Result.Fail(paymentResult.Errors);
         }
         
@@ -56,6 +59,7 @@ public class AcceptPaymentUseCase : IAcceptPaymentUseCase
 
         if (newAccount.IsFailed)
         {
+            await _unitOfWork.RollbackTransactionAsync();
             return Result.Fail(newAccount.Errors);
         }
         
@@ -63,8 +67,11 @@ public class AcceptPaymentUseCase : IAcceptPaymentUseCase
         
         if (userResult.IsFailed)
         {
+            await _unitOfWork.RollbackTransactionAsync();
             return Result.Fail(userResult.Errors);
         }
+        
+        await _unitOfWork.SaveChangesAsync();
         
         return await _unitOfWork.CommitTransactionAsync();
     }

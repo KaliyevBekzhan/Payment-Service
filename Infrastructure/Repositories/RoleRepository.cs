@@ -42,7 +42,7 @@ public class RoleRepository : IBaseRepository<Role>
         return Result.Ok(result.AsEnumerable());
     }
 
-    public async Task<Result> AddAsync(Role entity)
+    public async Task<Result<Role>> AddAsync(Role entity)
     {
         _dbContext.Roles.Add(entity);
 
@@ -53,7 +53,7 @@ public class RoleRepository : IBaseRepository<Role>
             return Result.Fail("Role already exists");
         }
 
-        return Result.Ok();
+        return Result.Ok(entity);
     }
 
     public async Task<Result> UpdateAsync(Role entity)

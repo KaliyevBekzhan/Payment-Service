@@ -5,5 +5,5 @@ namespace Application.UseCases.Interfaces;
 
 public interface IAddRoleUseCase
 {
-    Task<Result> ExecuteAsync(AddRoleDto dto, int userId);
+    Task<Result<RoleInfoDto>> ExecuteAsync(AddRoleDto dto, int userId);
 }

@@ -1,4 +1,5 @@
 ﻿using Application.Dto;
+using Application.Dto.Returns;
 using Application.Repositories;
 using Application.UseCases.Interfaces;
 using Domain.Entity;
@@ -17,19 +18,21 @@ public class AddCurrencyUseCase : IAddCurrencyUseCase
         _userRepository = userRepository;
         _guard = guard;
     }
-    public async Task<Result> ExecuteAsync(AddCurrencyDto dto, int userId)
+    public async Task<Result<CurrencyInfoDto>> ExecuteAsync(AddCurrencyDto dto, int userId)
     {
         var validationResult = await _guard.ValidateAdminRole(userId, _userRepository);
         
         if (validationResult.IsFailed) return validationResult;
         
         var currency = new Currency{
-            Name = dto.name,
-            ConversionRate = dto.rate
+            Name = dto.Name,
+            ConversionRate = dto.Rate
         };
         
         var result = await _currencyRepository.AddAsync(currency);
         
-        return result;
+        var newCurrency = result.Value;
+        
+        return Result.Ok(new CurrencyInfoDto(newCurrency.Id, newCurrency.Name, newCurrency.ConversionRate));
     }
 }

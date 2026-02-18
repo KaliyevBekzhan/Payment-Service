@@ -24,7 +24,7 @@ public class StatusRepository : IBaseRepository<Status>
             return Result.Fail("Status not found");
         }
         
-        return result;
+        return Result.Ok(result);
     }
 
     public async Task<Result<IEnumerable<Status>>> GetAllAsync()
@@ -39,7 +39,7 @@ public class StatusRepository : IBaseRepository<Status>
         return Result.Ok(result.AsEnumerable());
     }
 
-    public async Task<Result> AddAsync(Status entity)
+    public async Task<Result<Status>> AddAsync(Status entity)
     {
         _dbContext.Statuses.Add(entity);
         

@@ -33,7 +33,7 @@ public class GetAllCurrenciesUseCse : IGetAllCurrenciesUseCase
         
         if (currencies.IsFailed) return Result.Fail(currencies.Errors);
         
-        var result = currencies.Value.Select(c => new CurrenciesDto(c.Name, c.ConversionRate));
+        var result = currencies.Value.Select(c => new CurrenciesDto(c.Id, c.Name, c.ConversionRate));
         
         return Result.Ok(result);
     }

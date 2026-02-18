@@ -37,7 +37,7 @@ public class CurrencyRepository : IBaseRepository<Currency>
         return Result.Ok(result.AsEnumerable());
     }
 
-    public async Task<Result> AddAsync(Currency entity)
+    public async Task<Result<Currency>> AddAsync(Currency entity)
     {
         _dbContext.Currencies.Add(entity);
         

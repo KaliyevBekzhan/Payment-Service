@@ -1,3 +1,3 @@
 ﻿namespace Application.Dto;
 
-public record AddCurrencyDto(string name, decimal rate);
+public record AddCurrencyDto(string Name, decimal Rate);

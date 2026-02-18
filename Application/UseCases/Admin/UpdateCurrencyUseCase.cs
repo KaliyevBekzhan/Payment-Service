@@ -18,7 +18,7 @@ public class UpdateCurrencyUseCase : IUpdateCurrencyUseCase
         _userRepository = userRepository;
         _guard = guard;
     }
-    public async Task<Result> UpdateCurrencyAsync(UpdateCurrencyDto dto, int userId)
+    public async Task<Result> ExecuteAsync(UpdateCurrencyDto dto, int userId)
     {
         var validationResult = await _guard.ValidateAdminRole(userId, _userRepository);
         

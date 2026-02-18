@@ -16,6 +16,7 @@ public class GetPaymentsForAdminUseCase : IGetPaymentsForAdminUseCase
     {
         _paymentRepository = paymentRepository;
         _userRepository = userRepository;
+        _guard = guard;
     }
     
     public async Task<Result<IEnumerable<AdminPaymentsDto>>> ExecuteAsync(int userId)

@@ -16,7 +16,8 @@ public static class ApplicationDI
         // Работа с кор частью приложения
         services.AddScoped<IAcceptPaymentUseCase, AcceptPaymentUseCase>();
         services.AddScoped<IDeclinePaymentUseCase, DeclinePaymentUseCase>();
-        services.AddScoped<GetPaymentsForAdminUseCase, GetPaymentsForAdminUseCase>();
+        services.AddScoped<IGetPaymentsForAdminUseCase, GetPaymentsForAdminUseCase>();
+        services.AddScoped<IGetPaymentInfoForAdminUseCase, GetPaymentInfoForAdminUseCase>();
         
         // Работа с валютами
         services.AddScoped<IAddCurrencyUseCase, AddCurrencyUseCase>();
@@ -39,6 +40,8 @@ public static class ApplicationDI
         services.AddScoped<IAddPaymentUseCase, AddPaymentUseCase>();
         services.AddScoped<IGetInfoForPaymentUseCase, GetInfoForPaymentUseCase>();
         services.AddScoped<IGetMyPaymentsUseCase, GetMyPaymentsUseCase>();
+        services.AddScoped<ITopUpUseCase, TopUpUseCase>();
+        services.AddScoped<IMyCabinetUseCase, MyCabinetUseCase>();
         
         // Регистрация
         services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();

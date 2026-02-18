@@ -36,23 +36,27 @@ public class PaymentRepository : IPaymentRepository
 
     public async Task<Result> UpdatePaymentStatus(int id, int statusId, int userId)
     {
-        var row = await _dbContext.Payments
-            .Where(p => p.Id == id)
-            .ExecuteUpdateAsync(rs => rs
-                .SetProperty(p => p.StatusId, statusId)
-                .SetProperty(p => p.ChangerId, userId));
+        var paymentResult = await GetPaymentByIdAsync(id);
 
-        if (row == 0)
+        if (paymentResult.IsFailed)
         {
-            return Result.Fail("No payment affected");
+            return Result.Fail(paymentResult.Errors);
         }
+        
+        var payment = paymentResult.Value;
+        
+        payment.StatusId = statusId;
+        payment.ChangerId = userId;
         
         return Result.Ok();
     }
 
     public async Task<Result<Payment>> GetPaymentByIdAsync(int id)
     {
-        var result = await _dbContext.Payments.FindAsync(id);
+        var result = await _dbContext.Payments
+            .Include(p => p.Status)
+            .Include(p => p.Currency)
+            .FirstOrDefaultAsync(p => p.Id == id);
         
         if (result == null)
         {
@@ -62,6 +66,23 @@ public class PaymentRepository : IPaymentRepository
         return Result.Ok(result);
     }
 
+    public async Task<Result<Payment>> GetPaymentByIdForAdminAsync(int id)
+    {
+        var result = await _dbContext.Payments
+            .Include(p => p.Status)
+            .Include(p => p.Currency)
+            .Include(p => p.User)
+            .Include(p => p.Changer)
+            .FirstOrDefaultAsync(p => p.Id == id);
+        
+        if (result == null)
+        {
+            return Result.Fail("Payment not found");
+        }
+        
+        return Result.Ok(result);
+    }
+    
     public async Task<Result<IEnumerable<Payment>>> GetPaymentsByStatusIdAsync(int statusId)
     {
         var result = await _dbContext.Payments.Where(p => p.StatusId == statusId)

@@ -12,7 +12,7 @@ public class Payment
     public int CurrencyId { get; set; }
     public string Comment { get; set; } = null!;
     public int StatusId { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public int? ChangerId { get; set; }
     
     // One to Many

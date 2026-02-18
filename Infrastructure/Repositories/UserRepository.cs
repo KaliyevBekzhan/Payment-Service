@@ -138,4 +138,20 @@ public class UserRepository : IUserRepository
         
         return Result.Ok(result.AsEnumerable());
     }
+
+    public async Task<Result> UpdateUserAccountBalanceAsync(int id, decimal balance)
+    {
+        var rows = await _dbContext.Users
+            .Where(u => u.Id == id)
+            .ExecuteUpdateAsync(rs => rs.SetProperty(u =>
+                u.Account, balance
+            ));
+
+        if (rows == 0)
+        {
+            return Result.Fail("No User was affected");
+        }
+        
+        return Result.Ok();
+    }
 }

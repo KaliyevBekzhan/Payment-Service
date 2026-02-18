@@ -49,6 +49,8 @@ public class DeclinePaymentUseCase : IDeclinePaymentUseCase
             return Result.Fail(paymentResult.Errors);
         } 
         
+        await _unitOfWork.SaveChangesAsync();
+        
         return await _unitOfWork.CommitTransactionAsync();
     }
 }
