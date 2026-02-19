@@ -19,7 +19,7 @@ public class CurrenciesController : ControllerBase
     
     // GET
     [HttpGet("")]
-    public async Task<IActionResult> Index([FromServices] IGetAllCurrenciesUseCase getAllCurrenciesUseCase)
+    public async Task<IActionResult> Index([FromServices] IGetCurrenciesForAdminUseCase getAllCurrenciesUseCase)
     {
         var result = await getAllCurrenciesUseCase.ExecuteAsync(CurrentUserId);
         

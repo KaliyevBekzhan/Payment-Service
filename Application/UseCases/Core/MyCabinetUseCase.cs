@@ -27,16 +27,25 @@ public class MyCabinetUseCase : IMyCabinetUseCase
             return Result.Fail(userResult.Errors);
         }
         
-        var paymentsResult = await _getMyPaymentsUseCase.ExecuteAsync(new GetMyPaymentsDto(userId));
-
-        if (paymentsResult.IsFailed)
+        var transactionsResult = await _userRepository.GetMyActionsAsync(userId);
+        
+        if (transactionsResult.IsFailed)
         {
-            return Result.Fail(paymentsResult.Errors);
+            return Result.Fail(transactionsResult.Errors);
         }
         
         var user = userResult.Value;
         
-        var result = new MyCabinetDto(user.Name, user.Account, user.WalletNumber, paymentsResult.Value);
+        var actions = transactionsResult.Value.Select(t => new ActionsDto(
+            t.OriginalAmount, 
+            t.CurrencyName, 
+            t.AmountInTenge, 
+            t.StatusName, 
+            t.Comment, 
+            t.TransType
+        ));
+        
+        var result = new MyCabinetDto(user.Name, user.Account, user.WalletNumber, actions);
         
         return Result.Ok(result);
     }

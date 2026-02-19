@@ -1,3 +1,3 @@
 ﻿namespace Application.Dto;
 
-public record AddPaymentDto (int UserId, decimal Amount, int CurrencyId, string Comment);
+public record AddPaymentDto (int UserId, decimal OriginalAmount, int CurrencyId, string Comment);

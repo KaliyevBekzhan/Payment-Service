@@ -1,4 +1,5 @@
-﻿using Application.Repositories;
+﻿using Application.Interfaces;
+using Application.Repositories;
 using Domain.Entity;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
@@ -32,6 +33,7 @@ public static class InfrastructureDI
         services.AddScoped<IBaseRepository<Status>, StatusRepository>();
         services.AddScoped<IBaseRepository<Currency>, CurrencyRepository>();
         services.AddScoped<IBaseRepository<Role>, RoleRepository>();
+        services.AddScoped<ITopupRepository, TopupRepository>();
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IGuard, Guard>();

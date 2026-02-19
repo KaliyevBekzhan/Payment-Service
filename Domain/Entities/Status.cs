@@ -8,4 +8,5 @@ public class Status
     
     // Many to One
     public virtual ICollection<Payment> Payments { get; set; } = new HashSet<Payment>();
+    public virtual ICollection<TopUp> TopUps { get; set; } = new HashSet<TopUp>();
 }

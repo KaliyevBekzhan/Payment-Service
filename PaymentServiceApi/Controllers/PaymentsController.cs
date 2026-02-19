@@ -22,7 +22,7 @@ public class PaymentsController : ControllerBase
     public async Task<IActionResult> CreatePayment([FromBody] CreatePaymentRequest request,
         [FromServices] IAddPaymentUseCase addPaymentUseCase)
     {
-        var command = new AddPaymentDto(CurrentUserId, request.Amount, request.CurrencyId, request.Comment);
+        var command = new AddPaymentDto(CurrentUserId, request.OriginalAmount, request.CurrencyId, request.Comment);
         
         var result = await addPaymentUseCase.ExecuteAsync(command);
         
@@ -36,25 +36,8 @@ public class PaymentsController : ControllerBase
         
         return result.IsSuccess ? Ok(result.Value) : BadRequest("Не удалось получить платежи");
     }
-
-    [HttpPost("top-up")]
-    public async Task<IActionResult> TopUp([FromBody]TopUpRequest dto,
-        [FromServices] ITopUpUseCase topUpUseCase)
-    {
-        var result = await topUpUseCase.ExecuteAsync(CurrentUserId, dto.Amount);
-        
-        return result.IsSuccess ? Ok() : BadRequest("Не удалось пополнить баланс");
-    }
-
-    [HttpGet("cabinet")]
-    public async Task<IActionResult> MyCabinet([FromServices] IMyCabinetUseCase myCabinetUseCase)
-    {
-        var result = await myCabinetUseCase.ExecuteAsync(CurrentUserId);
-        
-        return result.IsSuccess ? Ok(result.Value) : BadRequest("Не удалось получить данные для кабинета");
-    }
     
-    [HttpGet("{id:int}/info")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetPaymentInfo(int id,
         [FromServices] IGetInfoForPaymentUseCase getInfoForPaymentUseCase)
     {

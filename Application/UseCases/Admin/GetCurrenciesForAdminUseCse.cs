@@ -7,13 +7,13 @@ using FluentResults;
 
 namespace Application.UseCases.Admin;
 
-public class GetAllCurrenciesUseCse : IGetAllCurrenciesUseCase
+public class GetCurrenciesForAdminUseCse : IGetCurrenciesForAdminUseCase
 {
     private readonly IBaseRepository<Currency> _currencyRepository;
     private readonly IUserRepository _userRepository;
     private readonly IGuard _guard;
 
-    public GetAllCurrenciesUseCse(
+    public GetCurrenciesForAdminUseCse(
         IBaseRepository<Currency> currencyRepository,
         IUserRepository userRepository,
         IGuard guard)

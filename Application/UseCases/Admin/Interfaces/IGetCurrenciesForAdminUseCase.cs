@@ -4,7 +4,7 @@ using FluentResults;
 
 namespace Application.UseCases.Interfaces;
 
-public interface IGetAllCurrenciesUseCase
+public interface IGetCurrenciesForAdminUseCase
 {
     Task<Result<IEnumerable<CurrenciesDto>>> ExecuteAsync(int userId);
 }

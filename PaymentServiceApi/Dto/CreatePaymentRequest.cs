@@ -1,3 +1,3 @@
 ﻿namespace PaymentServiceApi.Dto;
 
-public record CreatePaymentRequest(decimal Amount, int CurrencyId, string Comment);
+public record CreatePaymentRequest(decimal OriginalAmount, int CurrencyId, string Comment);

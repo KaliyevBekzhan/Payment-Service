@@ -23,7 +23,7 @@ public static class ApplicationDI
         services.AddScoped<IAddCurrencyUseCase, AddCurrencyUseCase>();
         services.AddScoped<IDeleteCurrencyUseCase, DeleteCurrencyUseCase>();
         services.AddScoped<IUpdateCurrencyUseCase, UpdateCurrencyUseCase>();
-        services.AddScoped<IGetAllCurrenciesUseCase, GetAllCurrenciesUseCse>();
+        services.AddScoped<IGetCurrenciesForAdminUseCase, GetCurrenciesForAdminUseCse>();
         
         // Работа с ролями
         services.AddScoped<IAddRoleUseCase, AddRoleUseCase>();
@@ -42,6 +42,10 @@ public static class ApplicationDI
         services.AddScoped<IGetMyPaymentsUseCase, GetMyPaymentsUseCase>();
         services.AddScoped<ITopUpUseCase, TopUpUseCase>();
         services.AddScoped<IMyCabinetUseCase, MyCabinetUseCase>();
+        services.AddScoped<IGetCurrenciesUseCase, GetCurrenciesUseCase>();
+        
+        services.AddScoped<IAddTopupUseCase, AddTopupUseCase>();
+        services.AddScoped<IGetMyTopupsUseCase, GetMyTopupsUseCase>();
         
         // Регистрация
         services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();

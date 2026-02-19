@@ -1,4 +1,5 @@
-﻿using Application.Dto;
+﻿using System.Security.Claims;
+using Application.Dto;
 using Application.Dto.Returns;
 using Application.UseCases.Interfaces;
 using Domain.Entity;
@@ -62,6 +63,17 @@ public class AuthController : ControllerBase
         };
         
         return Ok(response);
+    }
+
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> Me()
+    {
+        return Ok(new
+        {
+            id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0"),
+            Role = User.FindFirst(ClaimTypes.Role)?.Value
+        });
     }
     
     [HttpPost("logout")]

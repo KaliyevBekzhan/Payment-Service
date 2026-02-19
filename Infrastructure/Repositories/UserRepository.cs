@@ -1,7 +1,9 @@
-﻿using Application.Repositories;
+﻿using Application.Dto.Returns;
+using Application.Repositories;
 using Domain.Entity;
 using FluentResults;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Infrastructure.Repositories;
 
@@ -153,5 +155,17 @@ public class UserRepository : IUserRepository
         }
         
         return Result.Ok();
+    }
+
+    public async Task<Result<IEnumerable<TransactionsView>>> GetMyActionsAsync(int userId)
+    {
+        var result = await _dbContext.Transactions
+            .Where(t => t.UserId == userId)
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync();
+        
+        if (result.Count == 0) return Result.Fail("No transactions found");
+        
+        return Result.Ok(result.AsEnumerable());
     }
 }

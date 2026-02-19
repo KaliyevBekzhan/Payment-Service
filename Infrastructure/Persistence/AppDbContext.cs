@@ -16,6 +16,9 @@ public class AppDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<Status> Statuses { get; set; }
     public DbSet<Currency> Currencies { get; set; }
+    public DbSet<TopUp> TopUps { get; set; }
+    
+    public DbSet<TransactionsView> Transactions { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -115,6 +118,32 @@ public class AppDbContext : DbContext
             entity.ToTable("currency", t => t.HasCheckConstraint(
                 "ck_conv_rate_valid",
                 "conv_rate > 0"));
+        });
+
+        modelBuilder.Entity<TopUp>(entity =>
+        {
+            entity.ToTable("topup", t =>
+            {
+                t.HasCheckConstraint("ck_topup_og_amount_not_negative", "original_amount > 0");
+                t.HasCheckConstraint("ck_topup_amount_in_tenge_not_negative", "amount_in_tenge > 0");
+            });
+            entity.HasOne(t => t.User)
+                .WithMany(u => u.TopUps)
+                .HasForeignKey(t => t.UserId);
+            
+            entity.HasOne(t => t.Currency)
+                .WithMany(c => c.TopUps)
+                .HasForeignKey(t => t.CurrencyId);
+            
+            entity.HasOne(t => t.Status)
+                .WithMany(s => s.TopUps)
+                .HasForeignKey(t => t.StatusId);
+        });
+        
+        modelBuilder.Entity<TransactionsView>(entity =>
+        {
+            entity.HasNoKey();
+            entity.ToView("v_alltransactions");
         });
     }
 }
