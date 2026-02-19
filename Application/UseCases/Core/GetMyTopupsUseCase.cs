@@ -24,10 +24,12 @@ public class GetMyTopupsUseCase : IGetMyTopupsUseCase
         }
         
         return Result.Ok(result.Value.Select(t => new MyTopupsDto(
+            t.Id,
             t.OriginalAmount, 
             t.AmountInTenge, 
-            t.CurrencyId, 
+            t.Currency.Name, 
             t.Comment, 
+            t.Status.Name,
             t.CreatedAt)
         ));
     }

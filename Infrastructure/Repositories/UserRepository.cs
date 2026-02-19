@@ -133,11 +133,6 @@ public class UserRepository : IUserRepository
             .Include(u => u.Role)
             .ToListAsync();
         
-        if (result == null)
-        {
-            return Result.Fail("No users found");
-        }
-        
         return Result.Ok(result.AsEnumerable());
     }
 
@@ -163,8 +158,6 @@ public class UserRepository : IUserRepository
             .Where(t => t.UserId == userId)
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync();
-        
-        if (result.Count == 0) return Result.Fail("No transactions found");
         
         return Result.Ok(result.AsEnumerable());
     }

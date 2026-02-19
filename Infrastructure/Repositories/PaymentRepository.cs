@@ -25,11 +25,6 @@ public class PaymentRepository : IPaymentRepository
             .Include(p => p.Status)
             .Include(p => p.Currency)
             .ToListAsync();
-
-        if (result.Count == 0)
-        {
-            return Result.Fail($"No payments found for User {userId}");
-        }
         
         return Result.Ok(result.AsEnumerable());
     }

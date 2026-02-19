@@ -27,18 +27,16 @@ public class TopupRepository : ITopupRepository
     {
         var result = await _dbContext.TopUps.ToListAsync();
         
-        if (result.Count == 0) return Result.Fail("No topups found");
-        
         return Result.Ok(result.AsEnumerable());
     }
 
     public async Task<Result<IEnumerable<TopUp>>> GetTopupByUserIdAsync(int userId)
     {
         var result = await _dbContext.TopUps
+            .Include(t => t.Status)
+            .Include(t => t.Currency)
             .Where(t => t.UserId == userId)
             .ToListAsync();
-
-        if (result.Count == 0) return Result.Fail("No topups found");
 
         return Result.Ok(result.AsEnumerable());
     }

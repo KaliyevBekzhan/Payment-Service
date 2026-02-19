@@ -46,6 +46,7 @@ public static class ApplicationDI
         
         services.AddScoped<IAddTopupUseCase, AddTopupUseCase>();
         services.AddScoped<IGetMyTopupsUseCase, GetMyTopupsUseCase>();
+        services.AddScoped<IMyActionsHistoryUseCase, MyActionsHistoryUseCase>();
         
         // Регистрация
         services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();

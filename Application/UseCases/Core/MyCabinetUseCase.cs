@@ -37,12 +37,14 @@ public class MyCabinetUseCase : IMyCabinetUseCase
         var user = userResult.Value;
         
         var actions = transactionsResult.Value.Select(t => new ActionsDto(
-            t.OriginalAmount, 
+            t.TransId,
+            t.TransType == "payment" ? (t.OriginalAmount) * -1 : (t.OriginalAmount), 
             t.CurrencyName, 
-            t.AmountInTenge, 
+            t.TransType == "payment" ? (t.AmountInTenge) * -1 : t.AmountInTenge, 
             t.StatusName, 
             t.Comment, 
-            t.TransType
+            t.TransType,
+            t.CreatedAt
         ));
         
         var result = new MyCabinetDto(user.Name, user.Account, user.WalletNumber, actions);

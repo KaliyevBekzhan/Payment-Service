@@ -2,6 +2,7 @@
 
 public class TransactionsView
 {
+    public int TransId { get; set; }
     public int UserId { get; set; }
     public decimal OriginalAmount { get; set; }
     public string CurrencyName { get; set; }

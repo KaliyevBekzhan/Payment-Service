@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .WriteTo.Seq("http://localhost:5341") 
+    .WriteTo.Console()
     .Enrich.FromLogContext() 
     .CreateLogger();
 

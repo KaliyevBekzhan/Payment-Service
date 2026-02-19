@@ -1,3 +1,3 @@
 ﻿namespace Application.Dto.Returns;
 
-public record MyTopupsDto(decimal OriginalAmount, decimal AmountInTenge, int CurrencyId, string Comment, DateTime CreatedAt);
+public record MyTopupsDto(int id, decimal OriginalAmount, decimal AmountInTenge, string Currency, string Comment, string Status, DateTime CreatedAt);

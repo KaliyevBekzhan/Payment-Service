@@ -21,4 +21,12 @@ public class UserController : Controller
         
         return result.IsSuccess ? Ok(result.Value) : BadRequest("Не удалось получить данные для кабинета");
     }
+
+    [HttpGet("history")]
+    public async Task<IActionResult> MyActionHistory([FromServices] IMyActionsHistoryUseCase myactionsHistoryUseCase)
+    {
+        var result = await myactionsHistoryUseCase.ExecuteAsync(CurrentUserId);
+        
+        return result.IsSuccess ? Ok(result.Value) : BadRequest("Не удалось получить данные для истории действий");
+    }
 }

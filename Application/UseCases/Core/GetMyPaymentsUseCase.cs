@@ -22,11 +22,13 @@ public class GetMyPaymentsUseCase : IGetMyPaymentsUseCase
 
         var result = payments.Value
             .Select(payment => new PaymentDto(
-                payment.OriginalAmount, 
+                payment.Id,
+                (payment.OriginalAmount) * -1, 
                 payment.Currency.Name, 
-                payment.AmountInTenge,
+                (payment.AmountInTenge) * -1,
                 payment.Status.Name,
-                payment.Comment
+                payment.Comment,
+                payment.CreatedAt
             )).ToList();
 
         return Result.Ok(result.AsEnumerable());

@@ -33,11 +33,6 @@ public class RoleRepository : IBaseRepository<Role>
         var result = await _dbContext.Roles
             .AsNoTracking()
             .ToListAsync();
-
-        if (result.Count == 0)
-        {
-            return Result.Fail("No roles found");
-        }
         
         return Result.Ok(result.AsEnumerable());
     }

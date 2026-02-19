@@ -38,4 +38,12 @@ public class TopupController : Controller
         
         return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetMyPopups([FromServices] IGetMyTopupsUseCase getMyTopupsUseCase)
+    {
+        var result = await getMyTopupsUseCase.ExecuteAsync(CurrentUserId);
+        
+        return result.IsSuccess ? Ok(result.Value) : BadRequest(result.Errors);
+    }
 }

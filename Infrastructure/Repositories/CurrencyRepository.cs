@@ -28,11 +28,6 @@ public class CurrencyRepository : IBaseRepository<Currency>
     public async Task<Result<IEnumerable<Currency>>> GetAllAsync()
     {
         var result = await _dbContext.Currencies.AsNoTracking().ToListAsync();
-
-        if (result.Count == 0)
-        {
-            return Result.Fail("No currencies found");
-        }
         
         return Result.Ok(result.AsEnumerable());
     }

@@ -1,8 +1,10 @@
 ﻿namespace Application.Dto.Returns;
 
-public record ActionsDto(decimal OriginalAmount, 
+public record ActionsDto(int id,
+    decimal OriginalAmount, 
     string Currency, 
     decimal AmountInTenge, 
     string Status,
     string Comment,
-    string TransType);
+    string TransType,
+    DateTime CreatedAt);
