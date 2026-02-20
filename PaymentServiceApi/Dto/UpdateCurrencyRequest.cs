@@ -1,3 +1,3 @@
 ﻿namespace PaymentServiceApi.Dto;
 
-public record UpdateCurrencyRequest(string Name, decimal Rate);
+public record UpdateCurrencyRequest(string Name, decimal ConversionRate);

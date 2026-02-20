@@ -27,7 +27,7 @@ public class UpdateCurrencyUseCase : IUpdateCurrencyUseCase
         var currency = new Currency{
             Id = dto.Id,
             Name = dto.Name,
-            ConversionRate = dto.Rate
+            ConversionRate = dto.ConversionRate
         };
         
         var result = await _currencyRepository.UpdateAsync(currency);

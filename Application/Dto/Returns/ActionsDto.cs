@@ -5,6 +5,7 @@ public record ActionsDto(int id,
     string Currency, 
     decimal AmountInTenge, 
     string Status,
+    decimal? Account,
     string Comment,
     string TransType,
     DateTime CreatedAt);

@@ -18,7 +18,7 @@ public class MyCabinetUseCase : IMyCabinetUseCase
     }
 
 
-    public async Task<Result<MyCabinetDto>> ExecuteAsync(int userId)
+    public async Task<Result<MyCabinetDto>> ExecuteAsync(int userId, int page = 1)
     {
         var userResult = await _userRepository.GetUserByIdAsync(userId);
 
@@ -27,7 +27,7 @@ public class MyCabinetUseCase : IMyCabinetUseCase
             return Result.Fail(userResult.Errors);
         }
         
-        var transactionsResult = await _userRepository.GetMyActionsAsync(userId);
+        var transactionsResult = await _userRepository.GetMyActionsAsync(userId, page);
         
         if (transactionsResult.IsFailed)
         {
@@ -41,7 +41,8 @@ public class MyCabinetUseCase : IMyCabinetUseCase
             t.TransType == "payment" ? (t.OriginalAmount) * -1 : (t.OriginalAmount), 
             t.CurrencyName, 
             t.TransType == "payment" ? (t.AmountInTenge) * -1 : t.AmountInTenge, 
-            t.StatusName, 
+            t.StatusName,
+            null,
             t.Comment, 
             t.TransType,
             t.CreatedAt

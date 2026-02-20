@@ -12,19 +12,21 @@ public class GetInfoForPaymentUseCase : IGetInfoForPaymentUseCase
     {
         _paymentRepository = paymentRepository;
     }
-    public async Task<Result<PaymentInfoDto>> ExecuteAsync(int paymentId)
+    public async Task<Result<ActionsDto>> ExecuteAsync(int paymentId)
     {
         var payment = await _paymentRepository.GetPaymentByIdAsync(paymentId);
         
-        if (payment.IsFailed) return Result.Fail<PaymentInfoDto>(payment.Errors);
+        if (payment.IsFailed) return Result.Fail<ActionsDto>(payment.Errors);
         
-        return Result.Ok(new PaymentInfoDto(
+        return Result.Ok(new ActionsDto(
             payment.Value.Id, 
             payment.Value.OriginalAmount, 
             payment.Value.Currency.Name,
-            payment.Value.Status.Name,
             payment.Value.AmountInTenge,
+            payment.Value.Status.Name,
             payment.Value.Account,
+            payment.Value.Comment,
+            "payment",
             payment.Value.CreatedAt
         ));
     }

@@ -98,6 +98,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
+app.UseMiddleware<ValidationMiddleware>();
 
 app.UseRouting();
 

@@ -1,4 +1,5 @@
-﻿using Application.Dto.Returns;
+﻿using Application.Dto;
+using Application.Dto.Returns;
 using Application.Repositories;
 using Application.UseCases.Interfaces;
 using FluentResults;
@@ -14,9 +15,10 @@ public class MyActionsHistoryUseCase : IMyActionsHistoryUseCase
         _userRepository = userRepository;
     }
 
-    public async Task<Result<IEnumerable<ActionsDto>>> ExecuteAsync(int userId)
+    public async Task<Result<IEnumerable<ActionsDto>>> ExecuteAsync(GetMyActionsDto dto)
     {
-        var actionsResult = await _userRepository.GetMyActionsAsync(userId);
+        var actionsResult = await _userRepository.GetMyActionsAsync(dto.UserId, 
+            dto.PageNumber, dto.PageSize);
         
         if (actionsResult.IsFailed) return Result.Fail(actionsResult.Errors);
         
@@ -26,6 +28,7 @@ public class MyActionsHistoryUseCase : IMyActionsHistoryUseCase
             action.CurrencyName,
             action.TransType == "payment" ? (action.AmountInTenge) * -1 : action.AmountInTenge,
             action.StatusName,
+            null,
             action.Comment,
             action.TransType,
             action.CreatedAt

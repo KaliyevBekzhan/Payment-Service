@@ -2,12 +2,14 @@
 using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PaymentServiceApi.Attributes;
 
 namespace PaymentServiceApi.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
 [Authorize]
+[RequireHmac]
 public class CurrenciesController : ControllerBase
 {
     

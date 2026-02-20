@@ -30,11 +30,15 @@ public class TopupRepository : ITopupRepository
         return Result.Ok(result.AsEnumerable());
     }
 
-    public async Task<Result<IEnumerable<TopUp>>> GetTopupByUserIdAsync(int userId)
+    public async Task<Result<IEnumerable<TopUp>>> GetTopupsByUserIdAsync(int userId, int pageNumber = 1, 
+        int pageSize = 10)
     {
         var result = await _dbContext.TopUps
             .Include(t => t.Status)
             .Include(t => t.Currency)
+            .OrderByDescending(t => t.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .Where(t => t.UserId == userId)
             .ToListAsync();
 

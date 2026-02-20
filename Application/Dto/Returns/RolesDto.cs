@@ -1,3 +1,3 @@
 ﻿namespace Application.Dto;
 
-public record RolesDto(string Name, bool IsAdmin, int Priority);
+public record RolesDto(int id, string Name, bool IsAdmin, int Priority);

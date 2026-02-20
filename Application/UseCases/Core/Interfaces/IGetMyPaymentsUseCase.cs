@@ -7,5 +7,5 @@ namespace Application.UseCases.Interfaces;
 
 public interface IGetMyPaymentsUseCase
 {
-    Task<Result<IEnumerable<PaymentDto>>> ExecuteAsync(GetMyPaymentsDto dto);
+    Task<Result<IEnumerable<ActionsDto>>> ExecuteAsync(GetMyActionsDto dto);
 }

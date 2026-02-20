@@ -3,6 +3,7 @@ using Application.Dto;
 using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PaymentServiceApi.Attributes;
 using PaymentServiceApi.Dto;
 
 namespace PaymentServiceApi.Controllers.Admin;
@@ -11,6 +12,7 @@ namespace PaymentServiceApi.Controllers.Admin;
 [ApiController]
 [Authorize(Roles = "Admin")]
 [Route("api/v1/[area]/[controller]")]
+[RequireHmac]
 public class RolesController : ControllerBase
 {
     protected int CurrentUserId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value 

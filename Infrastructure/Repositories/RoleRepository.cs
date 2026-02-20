@@ -58,6 +58,7 @@ public class RoleRepository : IBaseRepository<Role>
             .Where(r => r.IsAdmin == false)
             .ExecuteUpdateAsync(rs => rs
                 .SetProperty(r => r.Name, entity.Name)
+                .SetProperty(r => r.Priority, entity.Priority)
             );
 
         if (row == 0)

@@ -3,6 +3,7 @@ using Application.Dto;
 using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PaymentServiceApi.Attributes;
 using PaymentServiceApi.Dto;
 
 namespace PaymentServiceApi.Controllers.Admin;
@@ -11,6 +12,7 @@ namespace PaymentServiceApi.Controllers.Admin;
 [ApiController]
 [Authorize(Roles = "Admin")]
 [Route("api/v1/[area]/[controller]")]
+[RequireHmac]
 public class CurrenciesController : ControllerBase
 {
     protected int CurrentUserId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
@@ -42,7 +44,7 @@ public class CurrenciesController : ControllerBase
         [FromBody] UpdateCurrencyRequest request,
         [FromServices] IUpdateCurrencyUseCase updateCurrencyUseCase)
     {
-        var command = new UpdateCurrencyDto(id, request.Name, request.Rate);
+        var command = new UpdateCurrencyDto(id, request.Name, request.ConversionRate);
         
         var result = await updateCurrencyUseCase.ExecuteAsync(command, CurrentUserId);
         

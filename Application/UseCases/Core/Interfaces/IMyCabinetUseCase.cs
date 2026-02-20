@@ -5,5 +5,5 @@ namespace Application.UseCases.Interfaces;
 
 public interface IMyCabinetUseCase
 {
-    Task<Result<MyCabinetDto>> ExecuteAsync(int userId);
+    Task<Result<MyCabinetDto>> ExecuteAsync(int userId, int page = 1);
 }

@@ -1,9 +1,10 @@
-﻿using Application.Dto.Returns;
+﻿using Application.Dto;
+using Application.Dto.Returns;
 using FluentResults;
 
 namespace Application.UseCases.Interfaces;
 
-public interface IGetMyTopupsUseCase
+public interface IGetMyTopupsUseCase 
 {
-    Task<Result<IEnumerable<MyTopupsDto>>> ExecuteAsync(int userId);
+    Task<Result<IEnumerable<ActionsDto>>> ExecuteAsync(GetMyActionsDto dto);
 }

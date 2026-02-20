@@ -28,7 +28,7 @@ public class GetRolesUseCase : IGetRolesUseCase
         
         if (roles.IsFailed) return Result.Fail(roles.Errors);
         
-        var result = roles.Value.Select(r => new RolesDto(r.Name, r.IsAdmin, r.Priority));
+        var result = roles.Value.Select(r => new RolesDto(r.Id, r.Name, r.IsAdmin, r.Priority));
         
         return Result.Ok(result);
     }

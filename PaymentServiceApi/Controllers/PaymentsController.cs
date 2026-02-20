@@ -4,12 +4,14 @@ using Application.UseCases;
 using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PaymentServiceApi.Attributes;
 using PaymentServiceApi.Dto;
 
 namespace PaymentServiceApi.Controllers;
 
 [ApiController]
 [Authorize]
+[RequireHmac]
 [Route("api/v1/[controller]")]
 public class PaymentsController : ControllerBase
 {
@@ -29,10 +31,15 @@ public class PaymentsController : ControllerBase
         return result.IsSuccess ? Ok() : BadRequest("Не удалось создать платеж");
     }
 
-    [HttpGet("")]
-    public async Task<IActionResult> GetMyPayments([FromServices] IGetMyPaymentsUseCase getMyPaymentsUseCase)
+    [HttpGet()]
+    public async Task<IActionResult> GetMyPayments([FromQuery] PaginationRequest page,
+        [FromServices] IGetMyPaymentsUseCase getMyPaymentsUseCase)
     {
-        var result = await getMyPaymentsUseCase.ExecuteAsync(new GetMyPaymentsDto(CurrentUserId));
+        var result = await getMyPaymentsUseCase.ExecuteAsync(new GetMyActionsDto(
+            CurrentUserId, 
+            page.PageNumber, 
+            page.PageSize
+        ));
         
         return result.IsSuccess ? Ok(result.Value) : BadRequest("Не удалось получить платежи");
     }

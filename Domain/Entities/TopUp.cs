@@ -13,7 +13,7 @@ public class TopUp
     
     public int CurrencyId { get; set; }
     public virtual Currency Currency { get; set; } = null!;
-    public string CurrencyName { get; set; }
+    public string CurrencyName { get; set; } = null!;
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     

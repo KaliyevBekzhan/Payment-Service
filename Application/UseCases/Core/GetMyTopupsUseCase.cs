@@ -1,4 +1,5 @@
-﻿using Application.Dto.Returns;
+﻿using Application.Dto;
+using Application.Dto.Returns;
 using Application.Interfaces;
 using Application.UseCases.Interfaces;
 using FluentResults;
@@ -14,22 +15,24 @@ public class GetMyTopupsUseCase : IGetMyTopupsUseCase
         _topupRepository = topupRepository;
     }
     
-    public async Task<Result<IEnumerable<MyTopupsDto>>> ExecuteAsync(int userId)
+    public async Task<Result<IEnumerable<ActionsDto>>> ExecuteAsync(GetMyActionsDto dto)
     {
-        var result = await _topupRepository.GetTopupByUserIdAsync(userId);
+        var result = await _topupRepository.GetTopupsByUserIdAsync(dto.UserId, dto.PageNumber, dto.PageSize);
 
         if (result.IsFailed)
         {
             return Result.Fail(result.Errors);
         }
         
-        return Result.Ok(result.Value.Select(t => new MyTopupsDto(
+        return Result.Ok(result.Value.Select(t => new ActionsDto(
             t.Id,
             t.OriginalAmount, 
-            t.AmountInTenge, 
-            t.Currency.Name, 
-            t.Comment, 
+            t.Currency.Name,
+            t.AmountInTenge,
             t.Status.Name,
+            t.Account,
+            t.Comment,
+            "TopUp",
             t.CreatedAt)
         ));
     }

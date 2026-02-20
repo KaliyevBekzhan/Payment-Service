@@ -16,5 +16,6 @@ public interface IUserRepository
     Task<Result<bool>> CheckUserIsAdminAsync(int userId);
     Task<Result<IEnumerable<User>>> GetAllUsersAsync();
     Task<Result> UpdateUserAccountBalanceAsync(int id, decimal amount);
-    Task<Result<IEnumerable<TransactionsView>>> GetMyActionsAsync(int userId);
+    Task<Result<IEnumerable<TransactionsView>>> GetMyActionsAsync(int userId, int pageNumber = 1,
+        int pageSize = 10);
 }

@@ -51,7 +51,8 @@ public class CurrencyRepository : IBaseRepository<Currency>
         var rows = await _dbContext.Currencies
             .Where(c => c.Id == entity.Id)
             .ExecuteUpdateAsync(rs => 
-                rs.SetProperty(c => c.Name, entity.Name));
+                rs.SetProperty(c => c.Name, entity.Name)
+                    .SetProperty(c => c.ConversionRate, entity.ConversionRate));
         
         if (rows == 0)
         {

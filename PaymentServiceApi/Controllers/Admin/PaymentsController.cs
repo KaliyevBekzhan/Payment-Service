@@ -3,6 +3,7 @@ using Application.Dto;
 using Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PaymentServiceApi.Attributes;
 
 namespace PaymentServiceApi.Controllers.Admin;
 
@@ -10,6 +11,7 @@ namespace PaymentServiceApi.Controllers.Admin;
 [ApiController]
 [Authorize(Roles = "Admin")]
 [Route("api/v1/[area]/[controller]")]
+[RequireHmac]
 public class PaymentsController : ControllerBase
 {
     protected int CurrentUserId => int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
@@ -46,7 +48,7 @@ public class PaymentsController : ControllerBase
         return result.IsSuccess ? Ok(result.Value) : BadRequest("Не удалось получить платежи");
     }
 
-    [HttpGet("{id:int}/info")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> GetPaymentInfo(int id,
         [FromServices] IGetPaymentInfoForAdminUseCase getPaymentInfoForAdminUseCase)
     {

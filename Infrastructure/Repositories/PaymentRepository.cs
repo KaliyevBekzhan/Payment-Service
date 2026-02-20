@@ -19,11 +19,15 @@ public class PaymentRepository : IPaymentRepository
         await _dbContext.Payments.AddAsync(payment);
     }
 
-    public async Task<Result<IEnumerable<Payment>>> GetPaymentsByUserIdAsync(int userId)
+    public async Task<Result<IEnumerable<Payment>>> GetPaymentsByUserIdAsync(int userId, int pageNumber = 1,
+        int pageSize = 10)
     {
         var result = await _dbContext.Payments.Where(p => p.UserId == userId)
             .Include(p => p.Status)
             .Include(p => p.Currency)
+            .OrderByDescending(p => p.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
         
         return Result.Ok(result.AsEnumerable());

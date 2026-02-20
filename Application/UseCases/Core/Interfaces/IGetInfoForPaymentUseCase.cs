@@ -5,5 +5,5 @@ namespace Application.UseCases.Interfaces;
 
 public interface IGetInfoForPaymentUseCase
 {
-    Task<Result<PaymentInfoDto>> ExecuteAsync(int paymentId);
+    Task<Result<ActionsDto>> ExecuteAsync(int paymentId);
 }

@@ -152,11 +152,14 @@ public class UserRepository : IUserRepository
         return Result.Ok();
     }
 
-    public async Task<Result<IEnumerable<TransactionsView>>> GetMyActionsAsync(int userId)
+    public async Task<Result<IEnumerable<TransactionsView>>> GetMyActionsAsync(int userId, int pageNumber = 1,
+        int pageSize = 10)
     {
         var result = await _dbContext.Transactions
             .Where(t => t.UserId == userId)
             .OrderByDescending(t => t.CreatedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
         
         return Result.Ok(result.AsEnumerable());
