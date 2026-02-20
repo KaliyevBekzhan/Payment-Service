@@ -53,7 +53,7 @@ public class AddPaymentUseCase : IAddPaymentUseCase
             CurrencyName = currencyResult.Value.Name,
             CurrencyId = dto.CurrencyId,
             Comment = dto.Comment,
-            StatusId = (int)Statuses.Created,
+            StatusId = (int)StatusesEnum.Created,
             ChangerId = null
         };
         

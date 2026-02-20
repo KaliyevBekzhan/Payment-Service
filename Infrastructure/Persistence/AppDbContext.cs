@@ -1,4 +1,5 @@
 ﻿using Domain.Entity;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
@@ -90,6 +91,11 @@ public class AppDbContext : DbContext
             entity.HasIndex(r => r.Name)
                 .IsUnique()
                 .HasDatabaseName("uq_role_name");
+            
+            entity.HasData(
+                new Role { Id = (int)RolesEnum.Admin, Name = "Admin" },
+                new Role { Id = (int)RolesEnum.User, Name = "User" }
+            );
         });
         
         modelBuilder.Entity<Status>(entity =>
@@ -103,6 +109,12 @@ public class AppDbContext : DbContext
             entity.HasIndex(s => s.Name)
                 .IsUnique()
                 .HasDatabaseName("uq_status_name");
+            
+            entity.HasData(
+                new Status { Id = (int)StatusesEnum.Declined, Name = "Declined" },
+                new Status { Id = (int)StatusesEnum.Accepted, Name = "Accepted" },
+                new Status { Id = (int)StatusesEnum.Created, Name = "Created" }
+            );
         });
 
         modelBuilder.Entity<Currency>(entity =>
@@ -118,6 +130,12 @@ public class AppDbContext : DbContext
             entity.ToTable("currency", t => t.HasCheckConstraint(
                 "ck_conv_rate_valid",
                 "conv_rate > 0"));
+
+            entity.HasData(
+                new Currency { Id = 1, Name = "Тенге", ConversionRate = 1},
+                new Currency { Id = 2, Name = "Доллар", ConversionRate = (decimal)491.9800},
+                new Currency { Id = 3, Name = "Евро", ConversionRate = (decimal)583.7700}
+            );
         });
 
         modelBuilder.Entity<TopUp>(entity =>

@@ -47,7 +47,7 @@ public class AcceptPaymentUseCase : IAcceptPaymentUseCase
         
         _guard.ValidatePaymentStatus(payment.Value);
         
-        var paymentResult = await _paymentRepository.UpdatePaymentStatus(dto.PaymentId, (int)Statuses.Accepted, dto.ChangerId);
+        var paymentResult = await _paymentRepository.UpdatePaymentStatus(dto.PaymentId, (int)StatusesEnum.Accepted, dto.ChangerId);
         
         if (paymentResult.IsFailed)
         {

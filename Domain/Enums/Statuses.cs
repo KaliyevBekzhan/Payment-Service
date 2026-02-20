@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums;
 
-public enum Statuses
+public enum StatusesEnum
 {
     Created = 3,
     Accepted = 2,

@@ -64,7 +64,7 @@ public class AddTopupUseCase : IAddTopupUseCase
             Comment = dto.Comment,
             WalletNumber = userResult.Value.WalletNumber,
             CreatedAt = DateTime.UtcNow,
-            StatusId = (int)Statuses.Created,
+            StatusId = (int)StatusesEnum.Created,
             CurrencyName = currencyResult.Value.Name,
             Account = userResult.Value.Account,
         };

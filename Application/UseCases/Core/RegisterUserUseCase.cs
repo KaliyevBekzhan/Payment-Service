@@ -48,12 +48,12 @@ public class RegisterUserUseCase : IRegisterUserUseCase
             IIN = userDto.Iin,
             Name = userDto.Name,
             Password = _passwordHasher.HashPassword(userDto.Password),
-            RoleId = (int)Roles.User,
+            RoleId = (int)RolesEnum.User,
             Account = 0,
             WalletNumber = _walletNumberGenerator.Generate(),
             Role = new Role
             {
-                Id = (int)Roles.User,
+                Id = (int)RolesEnum.User,
                 Name = "User",
                 IsAdmin = false,
                 Priority = 1

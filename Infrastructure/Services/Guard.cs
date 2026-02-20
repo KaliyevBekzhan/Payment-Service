@@ -53,11 +53,11 @@ public class Guard : IGuard
             return Result.Fail(payment.Errors);
         }
         
-        if (payment.Value.StatusId == (int)Statuses.Declined)
+        if (payment.Value.StatusId == (int)StatusesEnum.Declined)
         {
             return Result.Fail("Payment already declined");
         } 
-        else if (payment.Value.StatusId == (int)Statuses.Accepted)
+        else if (payment.Value.StatusId == (int)StatusesEnum.Accepted)
         {
             return Result.Fail("Payment already accepted");
         }

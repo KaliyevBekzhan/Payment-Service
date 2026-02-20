@@ -25,7 +25,7 @@ public class GetPaymentsForAdminUseCase : IGetPaymentsForAdminUseCase
         
         if (validationResult.IsFailed) return validationResult;
         
-        var paymentsResult = await _paymentRepository.GetPaymentsByStatusIdAsync((int)Statuses.Created);
+        var paymentsResult = await _paymentRepository.GetPaymentsByStatusIdAsync((int)StatusesEnum.Created);
 
         if (paymentsResult.IsFailed)
         {

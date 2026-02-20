@@ -42,7 +42,7 @@ public class DeclinePaymentUseCase : IDeclinePaymentUseCase
         }
         
         
-        var paymentResult = await _paymentRepository.UpdatePaymentStatus(dto.PaymentId, (int)Statuses.Declined, dto.ChangerId);
+        var paymentResult = await _paymentRepository.UpdatePaymentStatus(dto.PaymentId, (int)StatusesEnum.Declined, dto.ChangerId);
 
         if (paymentResult.IsFailed)
         {
