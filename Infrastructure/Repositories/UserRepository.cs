@@ -26,7 +26,13 @@ public class UserRepository : IUserRepository
             return Result.Fail("User already exists");
         }
         
-        return Result.Ok(user);
+        var userWithRole = await _dbContext.Users
+            .Include(u => u.Role) // Подтягиваем роль
+            .FirstOrDefaultAsync(u => u.Id == user.Id);
+        
+        if (userWithRole == null) return Result.Fail("User not found");
+        
+        return Result.Ok(userWithRole);
     }
 
     public async Task<Result<User>> GetUserByIdAsync(int id)

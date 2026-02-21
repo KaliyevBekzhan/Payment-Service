@@ -1,9 +1,5 @@
 ﻿namespace Application.Dto.Returns;
 
-public record UserDto(int Id, 
-    string Name, 
-    string Role, 
-    decimal Account, 
-    string WalletNumber, 
+public record UserDto(string Role, 
     string Token, 
     DateTime Expires);

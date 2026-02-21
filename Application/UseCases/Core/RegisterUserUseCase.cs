@@ -51,19 +51,12 @@ public class RegisterUserUseCase : IRegisterUserUseCase
             RoleId = (int)RolesEnum.User,
             Account = 0,
             WalletNumber = _walletNumberGenerator.Generate(),
-            Role = new Role
-            {
-                Id = (int)RolesEnum.User,
-                Name = "User",
-                IsAdmin = false,
-                Priority = 1
-            }
         };
         
         await _userRepository.AddUserAsync(user);
         
         var token = _jwtService.GenerateToken(user.Id, user.Role.Name);
         
-        return Result.Ok<UserDto>(new UserDto(user.Id, user.Name, user.Role.Name, user.Account, user.WalletNumber, token.Token, token.Expires));
+        return Result.Ok<UserDto>(new UserDto(user.Role.Name, token.Token, token.Expires));
     }
 }

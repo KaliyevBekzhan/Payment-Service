@@ -56,10 +56,7 @@ public class AuthController : ControllerBase
 
         var response = new
         {
-            result.Value.Name,
             result.Value.Role,
-            result.Value.WalletNumber,
-            result.Value.Account
         };
         
         return Ok(response);
